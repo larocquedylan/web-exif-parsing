@@ -1,30 +1,48 @@
-# React + TypeScript + Vite
+## Introduction
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The goal of this app is the load and display a media file's EXIF information.
 
-Currently, two official plugins are available:
+- React Web App
+- Vite
+- TypeScript
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Load a file
+- File dialog
+- Drag n Drop
 
-## Expanding the ESLint configuration
+## Display EXIF data in user friendly way
+Handle:
+- Various file formats
+- Handle differing levels of EXIF data, no EXIF data.
+- Explore, profile performance vs file size if any
+- Performance strategies.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-- Configure the top-level `parserOptions` property like this:
+## Getting Started
+TODO: guide
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+1. Installation process
+2. Software dependencies
+3. Latest releases
+4. API references
+
+## Build and Test
+TODO: Describe and show how to build code and run the tests.
+
+## Contribute
+TODO: Explain how other users and developers can contribute.
+
+## Install dependencies
+```
+npm install
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Compile ts and build vite
+```
+npm run build
+```
+
+## Launch application
+```
+npm run dev
+```
