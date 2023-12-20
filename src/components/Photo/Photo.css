@@ -1,0 +1,10 @@
+.photo-viewer {
+    border: 2px dashed gray;
+    padding: 2rem;
+    min-height: 235px;
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
