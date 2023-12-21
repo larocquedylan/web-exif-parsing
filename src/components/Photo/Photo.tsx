@@ -11,15 +11,16 @@ const PhotoViewer: React.FC<PhotoViewerProps> = ({ file }) => {
     useEffect(() => {
         if (!file) return;
         const reader = new FileReader();
-        reader.onload = (e) => {
-    if (!e.target?.result) {
-        throw new Error('e.target.result is undefined or null');
-    }
 
-    if (typeof e.target?.result === 'string') {
-        setImageSrc(e.target.result);
-    }
-    };
+        reader.onload = (e) => {
+            if (!e.target?.result) {
+                throw new Error('e.target.result is undefined or null');
+            }
+
+            if (typeof e.target?.result === 'string') {
+                setImageSrc(e.target.result);
+            }
+        };
 
     reader.readAsDataURL(file);
     }, [file]);
