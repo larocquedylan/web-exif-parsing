@@ -46,3 +46,18 @@ npm run build
 ```
 npm run dev
 ```
+
+
+## Notes
+- when I increase or decrease the browser window zoom, it influences the canvas loop. So if I zoom way out, the loop seems to work properly and goes through the image the appropriate amount. If I am at a regular size, it doesn't loop through corretly. 
+- the canvas looping also is influence by the size of the normal image. 
+- I think I need some way of paramterizing the loop so that i read the file first, determine the size, then adjust my loop as such :(
+
+
+### TODO
+- allow users to add multiple photos and store them
+- allow users to download the generated images
+- paramterizr the colors of ascii characters and background?
+
+## Links
+[sharp library](https://sharp.pixelplumbing.com/performance)
