@@ -58,6 +58,7 @@ npm run dev
 - allow users to add multiple photos and store them
 - allow users to download the generated images
 - paramterizr the colors of ascii characters and background?
+- persist rendered canvas on refresh. Update when a new image is added. 
 
 ## Links
 [sharp library](https://sharp.pixelplumbing.com/performance)
