@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import './Photo.css';
 
 interface PhotoViewerProps {
     file: File | null;
@@ -26,9 +25,9 @@ const PhotoViewer: React.FC<PhotoViewerProps> = ({ file }) => {
     }, [file]);
 
     return (
-        <div className='photo-viewer'>
-        {imageSrc && <img src={imageSrc} width={300} alt='Uploaded Preview' />}
-    </div>
+    <>        
+        {imageSrc && <img src={imageSrc} alt='Uploaded Preview' />}
+    </>
     );
 };
 
