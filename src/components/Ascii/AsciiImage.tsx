@@ -1,126 +1,131 @@
 import { useRef, useEffect, useState } from 'react';
 
 type AsciiImageProps = {
-    file: File | null;
-    width: number;
-    height: number;
-}
+  file: File | null;
+  width: number;
+  height: number;
+};
 
 const density: string = 'Ñ@#W$9876543210?!abc;:+=-,._ ';
 const pixelSize: number = 1;
 
 const AsciiImage = ({ file, width, height }: AsciiImageProps) => {
-    const [imageSrc, setImageSrc] = useState<string | null>(null);
-    
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
 
-    useEffect(() => {
-        if (!file) return;
+  useEffect(() => {
+    if (!file) return;
 
-        const reader = new FileReader();
+    const reader = new FileReader();
 
-        reader.onload = (e) => {
-            if (!e.target?.result) {
-                throw new Error('e.target.result is undefined or null');
-            }
+    reader.onload = (e) => {
+      if (!e.target?.result) {
+        throw new Error('e.target.result is undefined or null');
+      }
 
-            if (typeof e.target?.result === 'string') {
-                setImageSrc(e.target.result);
-            }
-        };
+      if (typeof e.target?.result === 'string') {
+        setImageSrc(e.target.result);
+      }
+    };
 
-        reader.readAsDataURL(file);
-    }, [file]);
-    
-    // create reference to canvas element where we will draw
-    const canvasRef = useRef(null);
+    reader.readAsDataURL(file);
+  }, [file]);
 
-    useEffect(() => {
-        if (!imageSrc) return;
+  // create direct reference to the dom node for the canvas
+  // don't want the component to rerender when the canvas is drawn
+  const canvasRef = useRef(null);
 
-        // reference the canvas element for drawing
-        const canvas = canvasRef.current;
+  useEffect(() => {
+    if (!imageSrc) return;
 
-        // get the drawing context which lets us draw to it
-        const ctx = canvas.getContext('2d');
+    // assign canvas to the canvasRef element for drawing
+    // use 2d context, not the webgl 3d context
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
 
-        ctx.imageSmoothingEnabled = false;
+    // function defn we call to load our photo from its source URL.
+    const loadImage = (src: string) => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.src = src;
+      });
+    };
 
-        // function defn we call to load our photo from its source URL.
-        const loadImage = (src: string) => {
-        return new Promise((resolve) => {
-            const img = new Image();
-            img.onload = () => resolve(img);
-            img.src = src;
-        });
-        };
+    const drawAsciiImage = async () => {
+      const photo = await loadImage(imageSrc);
 
-        const drawAsciiImage = async () => {
-            const photo = await loadImage(imageSrc);
-            
-            const resizedWidth = photo.width / pixelSize;
-            const resizedHeight = photo.height / pixelSize;
-            
-            canvas.width = width;
-            canvas.height = height;
+      // Scale the image to fit within the canvas dimensions while maintaining aspect ratio
+      const aspectRatio = photo.width / photo.height;
+      let resizedWidth, resizedHeight;
+      if (width / height > aspectRatio) {
+        resizedHeight = height;
+        resizedWidth = height * aspectRatio;
+      } else {
+        resizedWidth = width;
+        resizedHeight = width / aspectRatio;
+      }
 
-            // w and h are the dimensions of each pixel on the canvas.
-            const w = width / resizedWidth;
-            const h = height / resizedHeight;
+      canvas.width = width;
+      canvas.height = height;
 
-            // draw the image to the canvas
-            ctx.drawImage(photo, 0, 0, resizedWidth, resizedHeight);
+      const w = resizedWidth / width;
+      const h = resizedHeight / height;
+      console.log('🚀 ~ file: AsciiImage.tsx:57 ~ drawAsciiImage ~ photo:', photo);
 
-            // get the pixel data from the canvas
-            const photoData = ctx.getImageData(0, 0, resizedWidth, resizedHeight);
+      // draw the image to the canvas
+      ctx.drawImage(photo, 0, 0, resizedWidth, resizedHeight);
 
-            ctx.fillStyle = 'rgba(0, 0, 230, 1)';
-            ctx.fillRect(0, 0, width, height);
+      // get the pixel data from the canvas
+      const photoData = ctx.getImageData(0, 0, resizedWidth, resizedHeight);
 
-            // go through every pixel of the image
-            // get the brightness of every pixel in the image
-            // pixel array = [ r, g, b, a, r, g, b, a, ...]
-            for (let i = 0; i < resizedWidth; i++) {
-                for (let j = 0; j < resizedHeight; j++) {
-                    const pixelIndex = (i + j * resizedWidth) * 4;
-                    const r = photoData.data[pixelIndex + 0];
-                    const g = photoData.data[pixelIndex + 1];
-                    const b = photoData.data[pixelIndex + 2];
+      ctx.fillStyle = 'rgba(0, 0, 230, 1)';
+      ctx.fillRect(0, 0, width, height);
 
-                    const brightness = (r + g + b) / 3;
-                    const character = mapBrightnessToCharacter(brightness);
+      // go through every pixel of the image
+      // get the brightness of every pixel in the image
+      // pixel array = [ r, g, b, a, r, g, b, a, ...]
+      for (let i = 0; i < resizedWidth; i++) {
+        for (let j = 0; j < resizedHeight; j++) {
+          const pixelIndex = (i + j * resizedWidth) * 4;
+          const r = photoData.data[pixelIndex + 0];
+          const g = photoData.data[pixelIndex + 1];
+          const b = photoData.data[pixelIndex + 2];
 
-                    const fillColor =
-                    brightness > 128
-                    ? `rgba(0, 0, ${255 - (brightness - 128) * 2}, 1)`
-                    : 'rgba(255, 255, 255, 1)';
-                    ctx.fillStyle = fillColor;
+          const brightness = (r + g + b) / 3;
+          const character = mapBrightnessToCharacter(brightness);
 
-                    ctx.font = '7.41px monospace';
-                    ctx.fillText(character, i * w, j * h);
-                }
-            }
-        };
+          const fillColor =
+            brightness > 128 ? `rgba(0, 0, ${255 - (brightness - 128) * 2}, 1)` : 'rgba(255, 255, 255, 1)';
+          ctx.fillStyle = fillColor;
 
-        const mapBrightnessToCharacter = (brightness) => {
-            const index = Math.floor(map(brightness, 0, 169, density.length, 0));
-            return density.charAt(index);
-        };
+          ctx.font = '7.41px monospace';
+          ctx.fillText(character, i * w, j * h);
+        }
+      }
+    };
 
-        const map = (value, start1, stop1, start2, stop2) => {
-            return ((value - start1) / (stop1 - start1)) * (stop2 - start2) + start2;
-        };
+    const mapBrightnessToCharacter = (brightness: number) => {
+      const index = Math.floor(map(brightness, 0, 169, density.length, 0));
+      return density.charAt(index);
+    };
 
-        drawAsciiImage();
-    }, [imageSrc, width, height]);
+    const map = (value, start1, stop1, start2, stop2) => {
+      return ((value - start1) / (stop1 - start1)) * (stop2 - start2) + start2;
+    };
 
-    
-     return (
-        <canvas ref={canvasRef} />
-    );  
+    drawAsciiImage();
+  }, [imageSrc, width, height]);
+
+  return (
+    <>
+      <div className='w-556 h-755 p-6 rounded-lg shadow-md flex'>
+        <div className='flex flex-col items-center justify-center'>
+          <canvas ref={canvasRef} className='mb-4 h-300 w-300 aspect-w-1 aspect-h-1 object-cover' />
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default AsciiImage;
-
-
-
-
