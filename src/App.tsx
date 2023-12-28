@@ -17,7 +17,7 @@ function App() {
 
   return (
     <>
-      <div className='w-full min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-blue-400 via-orange-500 to-yellow-600 p-2'>
+      <div className='w-full min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-slate-950 to-blue-900 p-2'>
       <p> welcome to my web exif viewer app. </p>
         <main className="flex-grow p-4">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
