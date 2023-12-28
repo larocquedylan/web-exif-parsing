@@ -2,11 +2,11 @@ import { useState } from 'react';
 import FileInput from './components/Input/FileInput'
 import PhotoViewer from './components/Photo/Photo'
 import AsciiImage from './components/Ascii/AsciiImage';
-// import {Link} from 'react-router-dom'
 import { CardTitle, CardHeader, CardContent, Card } from './components/ui/card';
 import { Label} from './components/ui/label';
 import { Button } from './components/ui/button';
 import { Input } from './components/ui/input';
+
 
 function App() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -60,8 +60,6 @@ function App() {
         <span className="text-sm text-gray-600">© Company Name</span>
       </footer>
     </div>
-
-
     </>
   )
 }
