@@ -1,15 +1,14 @@
 import { useState } from 'react';
 import FileInput from './components/Input/FileInput'
 import PhotoViewer from './components/Photo/Photo'
-import AsciiImage from './components/Ascii/AsciiImage';
+// import AsciiImage from './components/Ascii/AsciiImage';
 import { CardTitle, CardHeader, CardContent, Card } from './components/ui/card';
-import { Label} from './components/ui/label';
-import { Button } from './components/ui/button';
-import { Input } from './components/ui/input';
-
+import ExifViewer from './components/ExifData/ExifViewer';
+import { defaultOptions } from './utils/ExifOptions';
 
 function App() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [parsingOptions, setParsingOptions] = useState<object>(defaultOptions);
   
   const handleFileSelected = (file: File) => {
     setSelectedFile(file);
@@ -51,13 +50,14 @@ function App() {
                 <code className="text-sm text-gray-800">"id": 1, "name": "John Doe", "email": "john@doe.com"</code>
                 {`}`}
               </pre> */}
-              <AsciiImage file={selectedFile} width={556} height={755}  />
+              {/* <AsciiImage file={selectedFile} width={556} height={755}  /> */}
+              <ExifViewer file={selectedFile} parseOptions={parsingOptions} />
             </CardContent>
           </Card>
         </div>
       </main>
       <footer className="flex items-center justify-center p-4 bg-gray-100">
-        <span className="text-sm text-gray-600">© Company Name</span>
+        <span className="text-sm text-gray-600">© dylan larocque</span>
       </footer>
     </div>
     </>
