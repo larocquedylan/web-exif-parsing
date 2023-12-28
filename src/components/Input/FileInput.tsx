@@ -1,5 +1,7 @@
 import { useCallback, useRef, useState } from "react"
-import "./FileInput.css"
+// import "./FileInput.css"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 interface FileInputProps {
     onFileSelected: (file: File) => void;
@@ -59,25 +61,18 @@ const FileInput: React.FC<FileInputProps> = ({ onFileSelected }) => {
     },[handleFileSelection]);
 
     return (
-        <div className='upload-container'>
-            <div
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleFileDrop}
-                className='drag-drop-container'
-                role='button'
-                tabIndex={0}
-                aria-label='File Input'
-            >
-                <input
-                    ref={fileInputRef}
-                    type='file'
-                    aria-label='File Upload'
-                    onChange={handleOnChange}
-                    className='upload'
-                />
-                {isDragActive ? 'drop it like its hot' : fileName || 'Drag your file here or click to upload'}
-            </div>
+        <div
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleFileDrop}
+            className='grid w-full max-w-sm items-center gap-1.5'
+            role='button'
+            tabIndex={0}
+            aria-label='File Input'
+        >
+            <Label htmlFor="upload" aria-label='upload input label' > </Label>
+            <Input id='upload' type='file' ref={fileInputRef} onChange={handleOnChange} aria-label='File Upload' className="border-none"/>
+            {isDragActive ? 'drop it like its hot' : fileName || 'Drag your file here or click to upload'}
         </div>
     );
 };
