@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import FileInput from './components/Input/FileInput'
 import PhotoViewer from './components/Photo/Photo'
-// import AsciiImage from './components/Ascii/AsciiImage';
 import { CardTitle, CardHeader, CardContent, Card } from './components/ui/card';
 import ExifViewer from './components/ExifData/ExifViewer';
 import { defaultOptions } from './utils/ExifOptions';
@@ -23,11 +22,11 @@ function App() {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           <Card>
             <CardHeader>
-              <CardTitle>Upload Photo</CardTitle>
+              <CardTitle>Drag or Select Photo</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col space-y-4">
               <div className="w-full">
-              <FileInput onFileSelected={handleFileSelected} />
+              <FileInput onFileSelected={handleFileSelected} file={selectedFile}/>
               </div>
             </CardContent>
           </Card>
