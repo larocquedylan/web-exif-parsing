@@ -17,6 +17,7 @@ const ExifViewer: React.FC<ExifViewerProps> = ({ file, parseOptions }) => {
     const [timeElapsed, setTimeElapsed] = useState<number>(0);
     const [fileSize, setFileSize] = useState<number>(0);
     const [tagCount, setTagCount] = useState<number>(0);
+    
 
     const renderExifData = useCallback(() => {
         if (!exifData) {
