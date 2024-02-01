@@ -7,7 +7,7 @@ type AsciiImageProps = {
 };
 
 const density: string = 'Ñ@#W$9876543210?!abc;:+=-,._ ';
-const pixelSize: number = 1;
+// const pixelSize: number = 1;
 
 const AsciiImage = ({ file, width, height }: AsciiImageProps) => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
@@ -32,22 +32,26 @@ const AsciiImage = ({ file, width, height }: AsciiImageProps) => {
 
   // create direct reference to the dom node for the canvas
   // don't want the component to rerender when the canvas is drawn
-  const canvasRef = useRef(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  // useEffect(() => {
   useEffect(() => {
     if (!imageSrc) return;
 
-    // assign canvas to the canvasRef element for drawing
-    // use 2d context, not the webgl 3d context
     const canvas = canvasRef.current;
+    if (!canvas) return; // Make sure canvas is not null
+
     const ctx = canvas.getContext('2d');
+    if (!ctx) return; // Make sure ctx is not null
+
     ctx.imageSmoothingEnabled = false;
 
     // function defn we call to load our photo from its source URL.
-    const loadImage = (src: string) => {
-      return new Promise((resolve) => {
+    const loadImage = (src: string): Promise<HTMLImageElement> => {
+      return new Promise((resolve, reject) => {
         const img = new Image();
         img.onload = () => resolve(img);
+        img.onerror = reject; // Handle the loading error
         img.src = src;
       });
     };
@@ -71,7 +75,6 @@ const AsciiImage = ({ file, width, height }: AsciiImageProps) => {
 
       const w = resizedWidth / width;
       const h = resizedHeight / height;
-      console.log('🚀 ~ file: AsciiImage.tsx:57 ~ drawAsciiImage ~ photo:', photo);
 
       // draw the image to the canvas
       ctx.drawImage(photo, 0, 0, resizedWidth, resizedHeight);
@@ -110,7 +113,7 @@ const AsciiImage = ({ file, width, height }: AsciiImageProps) => {
       return density.charAt(index);
     };
 
-    const map = (value, start1, stop1, start2, stop2) => {
+    const map = (value: number, start1: number, stop1: number, start2: number, stop2: number): number => {
       return ((value - start1) / (stop1 - start1)) * (stop2 - start2) + start2;
     };
 
