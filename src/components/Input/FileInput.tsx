@@ -6,7 +6,7 @@ interface FileInputProps {
   selectedFile: File | null;
 }
 
-const FileInput: React.FC<FileInputProps> = ({ onFileSelected, selectedFile }) => {
+const FileInput: React.FC<FileInputProps> = ({ onFileSelected }) => {
   const [isDragActive, setIsDragActive] = useState(false);
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -140,19 +140,19 @@ const FileInput: React.FC<FileInputProps> = ({ onFileSelected, selectedFile }) =
           ref={fileInputRef}
           onChange={handleOnChange}
           aria-label='File Upload'
+          className='hidden'
         />
         <div
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleFileDrop}
-          className='grid w-full h-full items-center gap-1.5 bg-white rounded-md p-4'
+          className='grid w-full h-full items-center gap-1.5 rounded-md p-4 border border-fuchsia-400 text-white'
           role='button'
           tabIndex={0}
           aria-label='File Input'
         >
           {isDragActive ? 'Drop it like its hot' : 'Drag and drop a file or click here'}
           <Result status={status} />
-          {selectedFile}
         </div>
       </div>
     );
@@ -167,12 +167,8 @@ const FileInput: React.FC<FileInputProps> = ({ onFileSelected, selectedFile }) =
 };
 
 const Result = ({ status }: { status: string }) => {
-  if (status === 'success') {
-    return <p>✅ File uploaded successfully!</p>;
-  } else if (status === 'fail') {
+  if (status === 'fail') {
     return <p>❌ File upload failed!</p>;
-  } else {
-    return null;
   }
 };
 
