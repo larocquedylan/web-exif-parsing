@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import exifr from 'exifr';
+import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from '@/components/ui/table';
 
 interface ExifViewerProps {
   file: File | null;
-
   parseOptions: object;
 }
 
@@ -12,34 +12,24 @@ interface ExifData {
 }
 
 const ExifViewer: React.FC<ExifViewerProps> = ({ file, parseOptions }) => {
-  // exifData state
   const [exifData, setExifData] = useState<ExifData | null>(null);
   const [timeElapsed, setTimeElapsed] = useState<number>(0);
   const [fileSize, setFileSize] = useState<number>(0);
 
-  const renderExifData = useCallback(() => {
-    if (!exifData) {
-      return;
-    } else {
-      return Object.entries(exifData).map(([key, value], i) => {
-        const formattedKey = key.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase()); // Example formatting
-        if (typeof value === 'string' || typeof value === 'number') {
-          return (
-            <tr key={i} className={`border border-sky-950`}>
-              <th
-                className='text-xs font-lg leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 whitespace-nowrap text-left'
-                scope='row'
-              >
-                <p className=''>{formattedKey}</p>
-              </th>
-              <td className='py-1 text-xs leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 '>
-                {value}
-              </td>
-            </tr>
-          );
-        }
-      });
-    }
+  const renderExifRows = useCallback(() => {
+    if (!exifData) return null;
+    return Object.entries(exifData).map(([key, value], i) => {
+      if (typeof value === 'string' || typeof value === 'number') {
+        const formattedKey = key.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase());
+        return (
+          <TableRow key={i}>
+            <TableCell className='text-sm'>{formattedKey}</TableCell>
+            <TableCell className='text-sm'>{value}</TableCell>
+          </TableRow>
+        );
+      }
+      return null;
+    });
   }, [exifData]);
 
   useEffect(() => {
@@ -61,14 +51,18 @@ const ExifViewer: React.FC<ExifViewerProps> = ({ file, parseOptions }) => {
   }, [file, parseOptions]);
 
   return (
-    <div className='flex flex-col w-full'>
-      <div className='flex flex-col space-y-1 pb-2'>
-        <p className='exif-viewer__size-time'>{`${(fileSize / 1000000).toFixed(
-          2,
-        )} Mb in ${timeElapsed.toFixed(3)} ms`}</p>
-      </div>
-      <div className='flex'>
-        <tbody className='w-full'>{renderExifData()}</tbody>
+    <div className='flex flex-col w-full text-white overflow-x-auto'>
+      <p className='mb-2'>{`${(fileSize / 1000000).toFixed(2)} Mb in ${timeElapsed.toFixed(3)} ms`}</p>
+      <div className='overflow-x-auto w-full flex justify-center items-center'>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className='w-[150px]'>Metadata Tag</TableHead>
+              <TableHead>Value</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>{renderExifRows()}</TableBody>
+        </Table>
       </div>
     </div>
   );

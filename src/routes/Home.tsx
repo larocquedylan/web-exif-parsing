@@ -34,7 +34,7 @@ const Home: React.FC = () => {
           </h1>
         </div>
       </section>
-      <div className='w-full max-w-md px-8 py-6 rounded-xl shadow-md'>
+      <div className='w-full max-w-md py-6 rounded-xl shadow-md'>
         <div className='flex flex-col space-y-4'>
           <FileInput onFileSelected={handleFileSelected} selectedFile={selectedFile} />
           {selectedFile && (
@@ -42,7 +42,7 @@ const Home: React.FC = () => {
           )}
         </div>
       </div>
-      <section className='flex justify-center gap-8 md:8 lg:py-12'>
+      <section className='flex justify-center gap-8 lg:py-12'>
         <button
           className='py-2 px-4 bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold rounded-md shadow-md transform hover:scale-105 transition-transform'
           onClick={() => navigate('/exif')}

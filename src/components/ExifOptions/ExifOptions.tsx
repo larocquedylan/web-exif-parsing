@@ -36,7 +36,7 @@ const ExifOptions: React.FC<ExifOptionsProps> = ({ onOptionsChange, parseOptions
 
   return (
     <div className='flex flex-col'>
-      <Button onClick={toggleSelectAll} variant="secondary" className='my-2'>
+      <Button onClick={toggleSelectAll} variant='secondary' className='my-2'>
         {selectAll ? 'Select All' : 'Deselect All Tags'}
       </Button>
       {Object.keys(defaultOptions).map((key) => {
@@ -46,12 +46,12 @@ const ExifOptions: React.FC<ExifOptionsProps> = ({ onOptionsChange, parseOptions
           <div className='flex flex-row items-center justify-start p-2'>
             <label
               key={key}
-              className='text-black text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+              className='text-white text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
             >
-                { ' ' } 
+              {' '}
             </label>
             <Checkbox checked={options[optionKey]} onChange={() => handleOptionToggle(optionKey)} />
-            <p className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 pl-4'>
+            <p className='text-sm text-white font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 pl-4'>
               {key}
             </p>
           </div>

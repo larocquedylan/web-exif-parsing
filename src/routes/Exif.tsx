@@ -1,6 +1,5 @@
 import { useContext, useState } from 'react';
 import PhotoViewer from '../components/Photo/Photo';
-import { CardTitle, CardHeader, CardContent, Card } from '../components/ui/card';
 import ExifViewer from '../components/ExifData/ExifViewer';
 import { defaultOptions } from '../utils/ExifOptions';
 import ExifOptions from '../components/ExifOptions/ExifOptions';
@@ -20,65 +19,57 @@ const Exif: React.FC = () => {
   return (
     <>
       <div className='flex flex-col items-center p-10 min-h-screen bg-gradient-to-br from-black via-slate-800 to-slate-950'>
-        <section className='w-full py-12'>
-          <div className='container space-y-4 px-4 md:px-6'>
-            <h1 className='text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-red-200 to-fuchsia-950 mb-10 text-center'>
-              Metadata
-            </h1>
-          </div>
-        </section>
+        {/* container */}
+        <div className='w-full max-w-[1000px]'>
+          {/* header */}
+          <section className='w-full py-12'>
+            <div className='container space-y-4 px-4 md:px-6'>
+              <h1 className='text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-red-200 to-fuchsia-950 mb-10 text-center'>
+                Metadata
+              </h1>
+            </div>
+          </section>
 
-        <main className='flex-grow p-4'>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'minmax(auto, 1fr) 2fr minmax(auto, 1fr)',
-              gap: '1rem',
-            }}
-          >
-            <Card style={{ gridRow: '1 / 2', gridColumn: '1 / 2' }}>
-              <CardHeader>
-                <CardTitle>What tags do you want to see?</CardTitle>
-              </CardHeader>
-              <CardContent className='flex flex-col space-y-4'>
-                <ExifOptions onOptionsChange={handleOptionsChange} parseOptions={parseOptions} />
-              </CardContent>
-            </Card>
-            <Card style={{ gridRow: '1 / 2', gridColumn: '2 / 3' }}>
-              <CardHeader>
-                <CardTitle>Photo View</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <PhotoViewer file={image} />
-              </CardContent>
-            </Card>
-            <Card style={{ gridRow: '1 / 2', gridColumn: '3 / 4' }}>
-              <CardHeader>
-                <CardTitle>Metadata View</CardTitle>
-              </CardHeader>
-              <CardContent>
+          {/* main content */}
+          <main className='flex flex-col lg:flex-row justify-center gap-8 w-full'>
+            {/* photo and parse options */}
+            <section className='p-4 flex flex-col md:w-1/2'>
+              <h2 className='text-white text-lg font-semibold mb-4'>Photo</h2>
+              <PhotoViewer file={image} />
+              <details className='my-4 cursor-pointer' open>
+                <summary className='text-lg font-semibold text-white'>Parse Options</summary>
+                <div className='mt-2 space-y-2'>
+                  <ExifOptions onOptionsChange={handleOptionsChange} parseOptions={parseOptions} />
+                </div>
+              </details>
+            </section>
+            {/* exif tags views */}
+            <section className='flex flex-col w-full lg:w-1/2 p-4'>
+              <h2 className='text-white text-lg font-semibold mb-4'>Metadata View</h2>
+              <div className='rounded-lg overflow-x-auto'>
                 <ExifViewer file={image} parseOptions={parseOptions} />
-              </CardContent>
-            </Card>
-          </div>
-        </main>
-        <section className='flex justify-center gap-8 md:8 lg:py-12'>
-          <button
-            className='py-2 px-4 bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold rounded-md shadow-md transform hover:scale-105 transition-transform'
-            onClick={() => navigate('/')}
-          >
-            Upload
-          </button>
-          <button
-            className='py-2 px-4 bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold rounded-md shadow-md transform hover:scale-105 transition-transform'
-            onClick={() => navigate('/ascii')}
-          >
-            ASCII
-          </button>
-        </section>
-        <footer className='flex items-center justify-center p-4'>
-          <NavBar />
-        </footer>
+              </div>
+            </section>
+          </main>
+
+          <section className='flex justify-center gap-8 md:8 lg:py-12'>
+            <button
+              className='py-2 px-4 bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold rounded-md shadow-md transform hover:scale-105 transition-transform'
+              onClick={() => navigate('/')}
+            >
+              {'< Try a different photo'}
+            </button>
+            <button
+              className='py-2 px-4 bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold rounded-md shadow-md transform hover:scale-105 transition-transform'
+              onClick={() => navigate('/ascii')}
+            >
+              {'Make it ASCII >'}
+            </button>
+          </section>
+          <footer className='flex items-center justify-center p-4'>
+            <NavBar />
+          </footer>
+        </div>
       </div>
     </>
   );
