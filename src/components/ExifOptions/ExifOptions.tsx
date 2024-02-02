@@ -37,7 +37,7 @@ const ExifOptions: React.FC<ExifOptionsProps> = ({ onOptionsChange, parseOptions
   return (
     <div className='flex flex-col'>
       <Button onClick={toggleSelectAll} variant="secondary" className='my-2'>
-        {selectAll ? 'Select All' : 'Deselect All'}
+        {selectAll ? 'Select All' : 'Deselect All Tags'}
       </Button>
       {Object.keys(defaultOptions).map((key) => {
         const optionKey = key as keyof typeof defaultOptions;
