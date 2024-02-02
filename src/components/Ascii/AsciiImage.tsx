@@ -124,7 +124,10 @@ const AsciiImage = ({ file, width, height }: AsciiImageProps) => {
     <>
       <div className='w-556 h-755 p-6 rounded-lg shadow-md flex'>
         <div className='flex flex-col items-center justify-center'>
-          <canvas ref={canvasRef} className='mb-4 h-300 w-300 aspect-w-1 aspect-h-1 object-cover' />
+          <canvas
+            ref={canvasRef}
+            className='mb-4 h-500 w-500 aspect-w-1 aspect-h-1 object-cover rounded-lg'
+          />
         </div>
       </div>
     </>

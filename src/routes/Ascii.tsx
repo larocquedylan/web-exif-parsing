@@ -1,6 +1,4 @@
 import { useContext } from 'react';
-// import FileInput from '../components/Input/FileInput';
-import { CardTitle, CardHeader, CardContent, Card } from '../components/ui/card';
 import AsciiImage from '../components/Ascii/AsciiImage';
 import { ImageContext } from '@/components/ImageContent/ImageContext';
 import NavBar from '@/components/NavBar/NavBar';
@@ -20,17 +18,8 @@ const Ascii: React.FC = () => {
             </h1>
           </div>
         </section>
-        <main className='flex -4'>
-          <div className='flex flex-col space-y-6'>
-            <Card>
-              <CardHeader>
-                <CardTitle>ASCII View</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <AsciiImage file={image} width={556} height={755} />
-              </CardContent>
-            </Card>
-          </div>
+        <main className='flex-4'>
+          <AsciiImage file={image} width={320} height={320} />
         </main>
         <section className='flex justify-center gap-8 md:8 lg:py-12'>
           <button
